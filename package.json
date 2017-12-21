@@ -1,0 +1,46 @@
+{
+  "name": "am-mongo",
+  "keywords": [
+    "mongo",
+    "mongodb",
+    "MongoClient",
+    "collection",
+    "ES6",
+    "await",
+    "promise",
+    "ExtendedPromise",
+    "chain",
+    "yield",
+    "filter",
+    "forEach",
+    "map",
+    "mapFilter",
+    "generator",
+    "wait",
+    "all",
+    "async/await"
+  ],
+  "version": "0.0.1",
+  "description": "Extension to add mongo collection methods to async-methods so they return Extended Promises",
+  "main": "index.js",
+  "scripts": {
+    "test-mongo": "mocha am-mongo-tests",
+    "test": "mocha am-tests && mocha am-mongo-tests",
+    "test-am": "mocha am-tests"
+  },
+  "repository": {
+    "type": "git",
+    "url": "github.com/ingenious/am-mongo"
+  },
+  "author": "Stephen Giles",
+  "license": "ISC",
+  "dependencies": {
+    "async-methods": "^0.2.0",
+    "mongodb": "^2.3.0 || ^3.0.0-rc0"
+  },
+  "devDependencies": {
+    "intercept-stdout": "^0.1.2",
+    "mocha": "^4.0.1",
+    "mongo-mock": "^2.8.0"
+  }
+}
