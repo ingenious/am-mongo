@@ -20,8 +20,9 @@
     "all",
     "async/await"
   ],
-  "version": "0.0.1",
-  "description": "Extension to add mongo collection methods to async-methods so they return Extended Promises",
+  "version": "0.0.2",
+  "description":
+    "Extension to add mongo collection methods to async-methods so they return Extended Promises",
   "main": "index.js",
   "scripts": {
     "test-mongo": "mocha am-mongo-tests",
