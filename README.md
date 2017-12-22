@@ -95,6 +95,7 @@ See [async-methods](https://www.npmjs.com/package/async-methods) for full API
 
 
     let am=require('am-mongo')
+    
 ```
 
 * Can have single database conenction per application or multiple connections
@@ -103,7 +104,7 @@ See [async-methods](https://www.npmjs.com/package/async-methods) for full API
 ### am.connect() (One persistent connection)
 
 ```
-
+                                                                                      
     // pass url of database and name of dataase to connect()
 
     testDB = am.connect('dbadmin:Mongo$789@192.168.99.100:27017', 'test').then(db => {
@@ -120,6 +121,7 @@ See [async-methods](https://www.npmjs.com/package/async-methods) for full API
         })
 
     am.close()  // closes the connection
+    
 ```
 
 The same connection will be available in any new chain initiated with am even in sparate modules, so can be used throughout an application.
@@ -129,7 +131,7 @@ If needed **db** and **MongoClient** are available any time as **_am.db_** and *
 ### am().connect() (Separate Connection for lifetime of a chain)
 
 ```
-
+                                                                                      
     // pass url of database and name of dataase to connect()
 	testDB = am().connect(url, 'test').then(db => {
 
@@ -149,6 +151,7 @@ If needed **db** and **MongoClient** are available any time as **_am.db_** and *
     testDB.client() // reference to native MongoClient object (for other functions if needed)
 
     testDB.close()  // close the connection
+    
 ```
 
 If needed **db** and **MongoClient** are available any time as **_testDB.db()_** and **_testDB.client()_**
@@ -160,7 +163,7 @@ If needed **db** and **MongoClient** are available any time as **_testDB.db()_**
 An array of collections is resolved in by the returned ExtendedPromise
 
 ```
-
+                                                                                      
  testDB
       .collections()
       .map(collection => {
@@ -169,6 +172,7 @@ An array of collections is resolved in by the returned ExtendedPromise
           console.log(names)
           // ['location','user','account']
       })
+      
 ```
 
 ### .collection(collectionName)
@@ -176,8 +180,7 @@ An array of collections is resolved in by the returned ExtendedPromise
 #### Retrieve a collection object
 
 ```
-
-
+                                                                                      
      am(function*(){
          let collection= yield testDB.collection('user')
         return collection
@@ -186,7 +189,7 @@ An array of collections is resolved in by the returned ExtendedPromise
 
 
      })
-
+     
 ```
 
 ### .collectionNames()
@@ -196,8 +199,7 @@ An array of collections is resolved in by the returned ExtendedPromise
 List a set of collection names using collectionNames()
 
 ```
-
-
+                                                                                      
      am(function*(){
          let collectionNames= yield testDB.collectionNames()
         return colelctionNames
@@ -207,7 +209,7 @@ List a set of collection names using collectionNames()
          console.log(name) // 'location' 'user' 'bank'
 
      })
-
+     
 ```
 
 ### .count()
@@ -217,14 +219,13 @@ List a set of collection names using collectionNames()
 Get a count of records in a collection
 
 ```
-
-
-
+                                                                                      
      am(function*(){
          let n= yield testDB.count('user')()
         return n
 
      }).log() // 2301
+     
 ```
 
 ### createIndex(collectionName)((keys, options)
@@ -232,7 +233,7 @@ Get a count of records in a collection
 #### Retrieve a count of docuements in a collection
 
 ```
-
+                                                                                      
      am(function*(){
         return yield testDB.insert('location')({
                 city: 'London',
@@ -259,6 +260,7 @@ Get a count of records in a collection
      }).catch(err=>{
 
      })
+     
 ```
 
 ### .client()
@@ -269,7 +271,7 @@ NB: This returns when using single chain connection method (**_am().connect()_**
 This method returns a MongoClient object not an ExtendedPromise
 
 ```
-
+                                                                                      
      testDB = am().connect(url, 'test')
 
      testDB.next(()=>{
@@ -277,7 +279,7 @@ This method returns a MongoClient object not an ExtendedPromise
         client.close()
 
      }
-
+     
 ```
 
 ### .db()
@@ -288,14 +290,14 @@ NB: This returns when using single chain connection method (**_am().connect()_**
 This method returns a DB object not an ExtendedPromise
 
 ```
-
+                                                                                      
      testDB = am()
       .connect(url, 'test')
      testDB.next(()=>{
         db = testDB.db()
         collection = db.collection('user')
      }
-
+     
 ```
 
 ### .deleteOne(collectionName)(criteria, options)
@@ -303,10 +305,10 @@ This method returns a DB object not an ExtendedPromise
 #### Delete one document
 
 ```
+                                                                                      
      testDB
           .deleteOne('user')({ name: 'Max' }).log()  // { n: 1, ok: 1 }
-
-
+          
 ```
 
 ### .deleteManycollectionName)(criteria, options)
@@ -314,11 +316,9 @@ This method returns a DB object not an ExtendedPromise
 #### Delete one or more documents
 
 ```
-
-
+                                                                                      
         testDB.deleteMany('user')({ balance: { $lt: 8900 } })
         .log()  //  { n: 2, ok: 1 }
-
 
 ```
 
@@ -327,11 +327,10 @@ This method returns a DB object not an ExtendedPromise
 #### Get a list of unique values for an attribute
 
 ```
-
+                                                                                      
       testDB.distinct('user')('name')
       .log()  //   [ 'Max', 'Mary' ]
-
-
+      
 ```
 
 ### .dropCollection((collectionName))
@@ -339,11 +338,10 @@ This method returns a DB object not an ExtendedPromise
 #### drop of a collection
 
 ```
-
+                                                                                      
       testDB.dropCollection('user')
       .log()  //  true
-
-
+      
 ```
 
 ### .findOne(collectionName)(criteria, options)
@@ -351,14 +349,11 @@ This method returns a DB object not an ExtendedPromise
 #### retrieve a single document
 
 ```
-
-
+                                                                                      
    testDB
       .findOne('user')({ name: 'Max' }, { projection: { name: 1, balance: 1 } })
       .log()  // { _id: 5a3b9abec6572e2a7d761420, name: 'Max', balance: 4567 }
-
-
-
+      
 ```
 
 ### .find(collectionName)(criteria, options)
@@ -366,11 +361,13 @@ This method returns a DB object not an ExtendedPromise
 #### retrieve one or more documents
 
 ```
-
+                                                                                      
     testDB
       .find('user')({ name: 'Max' }, { projection: { name: 1, balance: 1 } })
       .log(137)
-        //   [ { _id: 5a3b9b1cf418082a9d8a0812, name: 'Max', balance: 4567 },{ _id: 5a3b9b1cf418082a9d8a0813, name: 'Max', balance: 1234 } ]
+        //   [ { _id: 5a3b9b1cf418082a9d8a0812, name: 'Max', balance: 4567 }, 
+        //       { _id: 5a3b9b1cf418082a9d8a0813, name: 'Max', balance: 1234 } ]
+        
 ```
 
 ### .geoNear(collectionName)(x,y,options)
@@ -378,7 +375,7 @@ This method returns a DB object not an ExtendedPromise
 #### retrieve one or more documents using location proximity
 
 ```
-
+                                                                                      
   testDB
       .geoNear('location')(0.2, 51, { spherical: true, maxDistance: 0.1 })
       .log()
@@ -400,6 +397,7 @@ This method returns a DB object not an ExtendedPromise
                 },
          ok: 1 }
      */
+     
 ```
 
 ### .insertOne(collectionName)(data,options)
@@ -407,11 +405,11 @@ This method returns a DB object not an ExtendedPromise
 #### insert one document into a collection and return inserted record
 
 ```
-
-
+                                                                                      
     testDB
       .insertOne('user')({ name: 'Max', balance: 4567 })
       .log()   //  { name: 'Max', balance: 4567, _id: 5a3b9d26cfaaae2b05ba243a }
+      
 ```
 
 ### .insert(collectionName)(data,options)
@@ -419,11 +417,13 @@ This method returns a DB object not an ExtendedPromise
 #### insert one or more documents into a collection and return inserted records
 
 ```
-
+                                                                                      
     testDB
       .insert('user')([{ name: 'Max', balance: 1234 }, { name: 'Mary', balance: 8971 }])
       .log()
-        //  [ { name: 'Max', balance: 1234, _id: 5a3b9d93169eeb2b24246bf0 },{ name: 'Mary', balance: 8971, _id: 5a3b9d93169eeb2b24246bf1 } ]
+        //  [ { name: 'Max', balance: 1234, _id: 5a3b9d93169eeb2b24246bf0 },
+        //    { name: 'Mary', balance: 8971, _id: 5a3b9d93169eeb2b24246bf1 } ]
+        
 ```
 
 ### .isCollection(collectionName)
@@ -431,13 +431,13 @@ This method returns a DB object not an ExtendedPromise
 #### Check if collection exists
 
 ```
-
-
+                                                                                      
     testDB
       .isCollection('user')
       .next(boolean => {
         console.log(boolean) // true
       })
+      
 ```
 
 ### options(collectionName)
@@ -445,14 +445,13 @@ This method returns a DB object not an ExtendedPromise
 #### Get options of collection
 
 ```
-
+                                                                                      
  testDB
       .options('user')
       .next(config => {
         console.log(config) // {}
       })
-
-
+      
 ```
 
 ### .rename(collectionName)(newName)
@@ -460,7 +459,7 @@ This method returns a DB object not an ExtendedPromise
 #### Rename a collection
 
 ```
-
+                                                                                      
  testDB
       .rename('balance')('bank')
       .next(function*(collection) {
@@ -469,6 +468,7 @@ This method returns a DB object not an ExtendedPromise
         console.log(collection.collectionName,balances.length,banks.length)  //  'bank', 0, 2
 
       })
+      
 ```
 
 ### updateOne(collectionName)(criteria, update, options)
@@ -476,10 +476,11 @@ This method returns a DB object not an ExtendedPromise
 #### Update one document
 
 ```
-
+                                                                                      
         testDB
           .updateOne('user')({ name: 'Max' }, { balance: 7777 })
           .log()    //   { n: 1, nModified: 1, ok: 1 }
+          
 ```
 
 ### update(collectionName)(criteria, update, options)
@@ -487,10 +488,11 @@ This method returns a DB object not an ExtendedPromise
 #### Update one or more documents
 
 ```
-
+                                                                                      
         testDB
           .update('user')({ name: 'Max' }, { balance: 8888 })
           .log()    //  { n: 2, nModified: 2, ok: 1 }
+          
 ```
 
 ### upsert(collectionName)(criteria, update, options)
@@ -498,11 +500,15 @@ This method returns a DB object not an ExtendedPromise
 #### Upsert (Amend if exists, create if not) one or more documents
 
 ```
+                                                                                      
         testDB
           .upsert('user')({ name: 'Max' }, { balance: 8888 })
           .upsert('user')({ name: 'Molly' }, { name: 'Molly', balance: 2222 })
           .log()
-          //    { n: 1, nModified: 0,  upserted: [ { index: 0, _id: 5a3ba7201c12d25fdd112353 } ], ok: 1 }
+          //    { n: 1, nModified: 0,  
+          //      upserted: [ { index: 0, _id: 5a3ba7201c12d25fdd112353 } ],
+          //      ok: 1 }
+          
 ```
 
 ### upsertOne(collectionName)(criteria, update, options)
@@ -510,11 +516,12 @@ This method returns a DB object not an ExtendedPromise
 #### Upsert (Amend if exists, create if not) one document
 
 ```
+                                                                                      
 
         testDB
           .upsertOne('user')({ name: 'Max' }, { balance: 7777 })
           .log()  // { n: 1, nModified: 1, ok: 1 }
-
+          
 ```
 
 ## Tests
@@ -522,6 +529,7 @@ This method returns a DB object not an ExtendedPromise
 There are 210 automated tests for this extension in **_/tests_**. The test suites illustrate repeated operations on same database.
 
 ```
+                                                                                      
     $  npm test
 
     # test mongo methods only
@@ -529,4 +537,5 @@ There are 210 automated tests for this extension in **_/tests_**. The test suite
 
     # test base async-methods methods (ExtendedPromise methods)
     $ npm run test-am
+    
 ```
