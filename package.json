@@ -20,7 +20,8 @@
     "all",
     "async/await"
   ],
-  "version": "0.0.4",
+  
+  "version": "0.0.5",
   "description":
     "Extension to add mongo collection methods to async-methods so they return Extended Promises",
   "main": "am.js",

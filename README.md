@@ -84,9 +84,12 @@ See [async-methods](https://www.npmjs.com/package/async-methods) for full API
 
 ## Install
 
+Use versions 0.0.5 and above
+
 ```
 
-    $ npm install am-mongo -P
+    $ npm install am-mongo@>=0.0.5 -P
+
 ```
 
 ## Usage
