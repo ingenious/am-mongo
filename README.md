@@ -94,8 +94,8 @@ Use versions 0.0.5 and above
 
 ## Usage
 
-```
-
+```javascript
+                                                                    
 
     let am=require('am-mongo')
     
@@ -106,7 +106,7 @@ Use versions 0.0.5 and above
 
 ### am.connect() (One persistent connection)
 
-```
+```javascript
                                                                                       
     // pass url of database and name of dataase to connect()
 
@@ -126,14 +126,14 @@ Use versions 0.0.5 and above
     am.close()  // closes the connection
     
 ```
-
+                                                                           
 The same connection will be available in any new chain initiated with am even in sparate modules, so can be used throughout an application.
 
 If needed **db** and **MongoClient** are available any time as **_am.db_** and **_am.client_**
 
 ### am().connect() (Separate Connection for lifetime of a chain)
 
-```
+```javascript
                                                                                       
     // pass url of database and name of dataase to connect()
 	testDB = am().connect(url, 'test').then(db => {
@@ -165,7 +165,7 @@ If needed **db** and **MongoClient** are available any time as **_testDB.db()_**
 
 An array of collections is resolved in by the returned ExtendedPromise
 
-```
+```javascript
                                                                                       
  testDB
       .collections()
@@ -182,7 +182,7 @@ An array of collections is resolved in by the returned ExtendedPromise
 
 #### Retrieve a collection object
 
-```
+```javascript
                                                                                       
      am(function*(){
          let collection= yield testDB.collection('user')
@@ -201,7 +201,7 @@ An array of collections is resolved in by the returned ExtendedPromise
 
 List a set of collection names using collectionNames()
 
-```
+```javascript
                                                                                       
      am(function*(){
          let collectionNames= yield testDB.collectionNames()
@@ -221,7 +221,7 @@ List a set of collection names using collectionNames()
 
 Get a count of records in a collection
 
-```
+```javascript
                                                                                       
      am(function*(){
          let n= yield testDB.count('user')()
@@ -235,7 +235,7 @@ Get a count of records in a collection
 
 #### Retrieve a count of docuements in a collection
 
-```
+```javascript
                                                                                       
      am(function*(){
         return yield testDB.insert('location')({
@@ -273,7 +273,7 @@ Get a count of records in a collection
 NB: This returns when using single chain connection method (**_am().connect()_**)
 This method returns a MongoClient object not an ExtendedPromise
 
-```
+```javascript
                                                                                       
      testDB = am().connect(url, 'test')
 
@@ -292,7 +292,7 @@ This method returns a MongoClient object not an ExtendedPromise
 NB: This returns when using single chain connection method (**_am().connect()_**)
 This method returns a DB object not an ExtendedPromise
 
-```
+```javascript
                                                                                       
      testDB = am()
       .connect(url, 'test')
@@ -307,7 +307,7 @@ This method returns a DB object not an ExtendedPromise
 
 #### Delete one document
 
-```
+```javascript
                                                                                       
      testDB
           .deleteOne('user')({ name: 'Max' }).log()  // { n: 1, ok: 1 }
@@ -318,7 +318,7 @@ This method returns a DB object not an ExtendedPromise
 
 #### Delete one or more documents
 
-```
+```javascript
                                                                                       
         testDB.deleteMany('user')({ balance: { $lt: 8900 } })
         .log()  //  { n: 2, ok: 1 }
@@ -329,7 +329,7 @@ This method returns a DB object not an ExtendedPromise
 
 #### Get a list of unique values for an attribute
 
-```
+```javascript
                                                                                       
       testDB.distinct('user')('name')
       .log()  //   [ 'Max', 'Mary' ]
@@ -340,7 +340,7 @@ This method returns a DB object not an ExtendedPromise
 
 #### drop of a collection
 
-```
+```javascript
                                                                                       
       testDB.dropCollection('user')
       .log()  //  true
@@ -351,7 +351,7 @@ This method returns a DB object not an ExtendedPromise
 
 #### retrieve a single document
 
-```
+```javascript
                                                                                       
    testDB
       .findOne('user')({ name: 'Max' }, { projection: { name: 1, balance: 1 } })
@@ -363,7 +363,7 @@ This method returns a DB object not an ExtendedPromise
 
 #### retrieve one or more documents
 
-```
+```javascript
                                                                                       
     testDB
       .find('user')({ name: 'Max' }, { projection: { name: 1, balance: 1 } })
@@ -377,7 +377,7 @@ This method returns a DB object not an ExtendedPromise
 
 #### retrieve one or more documents using location proximity
 
-```
+```javascript
                                                                                       
   testDB
       .geoNear('location')(0.2, 51, { spherical: true, maxDistance: 0.1 })
@@ -407,7 +407,7 @@ This method returns a DB object not an ExtendedPromise
 
 #### insert one document into a collection and return inserted record
 
-```
+```javascript
                                                                                       
     testDB
       .insertOne('user')({ name: 'Max', balance: 4567 })
@@ -419,7 +419,7 @@ This method returns a DB object not an ExtendedPromise
 
 #### insert one or more documents into a collection and return inserted records
 
-```
+```javascript
                                                                                       
     testDB
       .insert('user')([{ name: 'Max', balance: 1234 }, { name: 'Mary', balance: 8971 }])
@@ -433,7 +433,7 @@ This method returns a DB object not an ExtendedPromise
 
 #### Check if collection exists
 
-```
+```javascript
                                                                                       
     testDB
       .isCollection('user')
@@ -447,7 +447,7 @@ This method returns a DB object not an ExtendedPromise
 
 #### Get options of collection
 
-```
+```javascript
                                                                                       
  testDB
       .options('user')
@@ -461,7 +461,7 @@ This method returns a DB object not an ExtendedPromise
 
 #### Rename a collection
 
-```
+```javascript
                                                                                       
  testDB
       .rename('balance')('bank')
@@ -478,7 +478,7 @@ This method returns a DB object not an ExtendedPromise
 
 #### Update one document
 
-```
+```javascript
                                                                                       
         testDB
           .updateOne('user')({ name: 'Max' }, { balance: 7777 })
@@ -490,7 +490,7 @@ This method returns a DB object not an ExtendedPromise
 
 #### Update one or more documents
 
-```
+```javascript
                                                                                       
         testDB
           .update('user')({ name: 'Max' }, { balance: 8888 })
@@ -502,7 +502,7 @@ This method returns a DB object not an ExtendedPromise
 
 #### Upsert (Amend if exists, create if not) one or more documents
 
-```
+```javascript
                                                                                       
         testDB
           .upsert('user')({ name: 'Max' }, { balance: 8888 })
@@ -518,9 +518,8 @@ This method returns a DB object not an ExtendedPromise
 
 #### Upsert (Amend if exists, create if not) one document
 
-```
+```javascript
                                                                                       
-
         testDB
           .upsertOne('user')({ name: 'Max' }, { balance: 7777 })
           .log()  // { n: 1, nModified: 1, ok: 1 }
