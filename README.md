@@ -22,7 +22,7 @@
 
 * .deleteMany(collectionName)(criteria,options)
 
-* .deleteOne(collectionName)(criteria, options)
+* .deleteOne(collectionName)(criteria, options)  [deleteOne](#delete-one-document)
 
 * .distinct(collectionName)(field,options)
 
