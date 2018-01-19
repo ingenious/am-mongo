@@ -22,7 +22,7 @@
     .error(errorMethodName, class)
    
 ```
- with clear readable logic.
+ with clear readable logic.  (Second argument can also be a new'ed class)
 
 ### Gitter
 
