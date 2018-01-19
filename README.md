@@ -2,15 +2,14 @@
 
 > Conveniently-wrapped Mongo collections methods returning ExtendedPromises with **_async-methods_** methods available
 
-## New in version 0.0.10
+### New in version 0.0.10
 
-1.  New inherited features from async-methods 0.2.11 - **.twoPrev()** and **.threePrev()** *ExtendedPromise* methods give access to the previous two resolved values in chain and previous three resolved values in the chain respectively
+1.  New features  (async-methods 0.2.11) - **.twoPrev()** and **.threePrev()** *ExtendedPromise* methods give access to the previous two resolved values in chain and previous three resolved values in the chain respectively
 
 2.  Most *ExtendedPromise* methods now support regular functions, generators or anonymous or named classes to handle the step processing meaning that steps can be either synchronous or asynchronous using either **yield** within a generator function or **await** within an **async** ES6 class method
 
 3.  The **Asyncronous steps in ES6 Class** pattern/layout offers convenient way to layout each step of an asynchronous mongodb processing sequence as ES6 class methods (functions/generators or async) which can then be easily chained using 
 
-3.  Gitter chat now available for questions/support/suggestions on **am-mongo** [gitter](https://gitter.im/ingenio-us-npm-packages/Lobby)
 
 ```javascript
                                                            
@@ -25,12 +24,24 @@
 ```
  with clear readable logic.
 
-#### The **am.mongo** extension has the following methods:
+### Gitter
+
+Gitter chat now available for questions/support/suggestions on **am-mongo** [gitter](https://gitter.im/ingenio-us-npm-packages/Lobby)
+
+### Methods
+
+#### The **am.mongo** extension has two static methods:
+
+[am.connect()](#persistent-application-wide-connection)
+- create persistent application-wide connection
+
+[am.close()](#close-persistent-connection) close persistent connection
 
 
-* [.connect(url, databaseName)](#transient-connection-for-lifetime-of-a-chain)
+#### The **am.mongo** extension has the following chainable methods:
 
-   Transient Connection for lifetime of a chain
+
+* [.connect(url, databaseName)](#transient-connection-for-lifetime-of-a-chain)  - transient connection for lifetime of a chain
 
 * [.collections()](#collections)
 
@@ -38,9 +49,9 @@
 
 * [.collectionNames()](#collectionnames)
 
-* [.count()](count)
+* [.count()](#count)
 
-* [.createIndex(collectionName)(keys, options)](createIndex)
+* [.createIndex(collectionName)(keys, options)](#createIndex)
 
 * [.client()](#client)
 
@@ -76,15 +87,8 @@
 
 * [.upsert(collectionName)(criteria, update, options)](#upsert)
 
-* [.upsertOne(collectionName)(criteria, update, options)](#upseryOnes)
+* [.upsertOne(collectionName)(criteria, update, options)](#upsertone)
 
-#### The **am.mongo** extension has two static methods:
-
-
-[am.connect()](#persistent-application-wide-connection)
-Create Persistent application-wide connection
-
-[am.close()](#close-persistent-connection) Close persistent connection
 
 
 ### All async-methods *ExtendedPromise* methods are available to manipulate returned and rejected values
@@ -132,7 +136,7 @@ Use versions 0.0.5 and above
 
 ```
                                                                                     
-    $ npm install am-mongo@>=0.0.5 -P
+    $ npm install am-mongo@>=0.0.10 -P
 
 ```
 
