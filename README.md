@@ -51,7 +51,7 @@ Gitter chat now available for questions/support/suggestions on **am-mongo** [git
 
 * [.count()](#count)
 
-* [.createIndex(collectionName)(keys, options)](#createIndex)
+* [.createIndex(collectionName)(keys, options)](#createindex)
 
 * [.client()](#client)
 
