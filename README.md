@@ -4,70 +4,84 @@
 
 
 
-#### This extension has the following methods:
+### Methods
 
-* .connect(url, databaseName)
+#### The **am.mongo** extension has two static methods:
 
-* .collections()
+[am.connect()](#persistent-application-wide-connection)
+- create persistent application-wide connection
 
-* .collection(collectionName)
+[am.close()](#close-persistent-connection) close persistent connection
 
-* .collectionNames()
 
-* .count()
+#### The **am.mongo** extension has the following chainable methods:
 
-* .createIndex(collectionName)(keys, options)
 
-* .client()
+* [.connect(url, databaseName)](#transient-connection-for-lifetime-of-a-chain)  - transient connection for lifetime of a chain
 
-* .db()
+* [.collections()](#collections)
 
-* .[deleteMany(collectionName)(criteria,options)](#delete-one-or-more-documents)
+* [.collection(collectionName)](#collection)
 
-* .[deleteOne(collectionName)(criteria, options)](#delete-one-document)
+* [.collectionNames()](#collectionnames)
 
-* .distinct(collectionName)(field,options)
+* [.count()](#count)
 
-* .dropCollection(collectionName)
+* [.createIndex(collectionName)(keys, options)](#createindex)
 
-* .findOne(collectionName)(criteria, options)
+* [.client()](#client)
 
-* .find(collectionName)(criteria, options)
+* [.db()](#db)
 
-* .geoNear(collectionName)(x,y,options)
+* [.deleteMany(collectionName)(criteria,options)](#delete-one-or-more-documents)
 
-* .insert(collectionName)(data,options)
+* [.deleteOne(collectionName)(criteria, options)](#delete-one-document)
 
-* .insertOne(collectionName)(data,options)
+* [.distinct(collectionName)(field,options)](#distinct)
 
-* .isCollection(collectionName)
+* [.dropCollection(collectionName)](#dropcollection)
 
-* .options(collectionName)
+* [.findOne(collectionName)(criteria, options)](#findone)
 
-* .rename(collectionName)(newName)
+* [.find(collectionName)(criteria, options)](#find)
 
-* .update(collectionName)(criteria, update, options)
+* [.geoNear(collectionName)(x,y,options)](#geonear)
 
-* .updateOne(collectionName)(criteria, update, options)
+* [.insert(collectionName)(data,options)](#insert)
 
-* .upsert(collectionName)(criteria, update, options)
+* [.insertOne(collectionName)(data,options)](#insertone)
 
-* .upsertOne(collectionName)(criteria, update, options)
+* [.isCollection(collectionName)](#iscollection)
+
+* [.options(collectionName)](#options)
+
+* [.rename(collectionName)(newName)](#rename)
+
+* [.update(collectionName)(criteria, update, options)](#update)
+
+* [.updateOne(collectionName)(criteria, update, options)](#updateone)
+
+* [.upsert(collectionName)(criteria, update, options)](#upsert)
+
+* [.upsertOne(collectionName)(criteria, update, options)](#upsertone)
+
+
 
 ### All async-methods *ExtendedPromise* methods are available to manipulate returned and rejected values
 
 See [async-methods](https://www.npmjs.com/package/async-methods) for full API
 
-	*Chainable methods*
-	- [**next**(&lt;fn | generator | (methodName,class)&gt;)](#next)
-	- [**error**(&lt;fn | generator | (methodName,class)&gt;)](#error)
-	- [**forEach**(&lt;fn | generator | (methodName,class)&gt;)](#foreach)
-	- [**map**(&lt;fn | generator | (methodName,class)&gt;)](#map)
-	- [**mapFilter**(&lt;fn | generator | (methodName,class)&gt;)](#mapfilter)
-	- [**filter**(&lt;fn | generator | (methodName,class)&gt;)](#filter)
-	- [**twoPrev**(&lt;fn | generator | (methodName,class)&gt;)](#twoprev)
-	- [**threePrev**(&lt;fn | generator | (methodName,class)&gt;)](#threeprev)
-	- [**prev**()](#prev)
+*Chainable methods*
+	
+  - [**next**(&lt;fn | generator | (methodName,class)&gt;)](#next)
+  - [**error**(&lt;fn | generator | (methodName,class)&gt;)](#error)
+  - [**forEach**(&lt;fn | generator | (methodName,class)&gt;)](#foreach)
+  - [**map**(&lt;fn | generator | (methodName,class)&gt;)](#map)
+  - [**mapFilter**(&lt;fn | generator | (methodName,class)&gt;)](#mapfilter)
+  - [**filter**(&lt;fn | generator | (methodName,class)&gt;)](#filter)
+  - [**twoPrev**(&lt;fn | generator | (methodName,class)&gt;)](#twoprev)
+  - [**threePrev**(&lt;fn | generator | (methodName,class)&gt;)](#threeprev)
+  - [**prev**()](#prev)
 
       More: [.log()](#log), [.wait()](#wait), [.timeout()](#timeout), [.catch()](#catch), [.then()](#then), [.promise()](#promise) 
 
@@ -103,7 +117,7 @@ Use versions 0.0.5 and above
 
 ```
                                                                                     
-    $ npm install am-mongo@>=0.0.14 
+    $ npm install am-mongo@>=0.0.15
 
 ```
 
@@ -123,7 +137,7 @@ or
   am.extend('am-mongo')
     
 ```
-In latter case  **async-methods@0.2.15** or higher and **am-mong@0.0.14** or higher both need to be in package.json
+In latter case  **async-methods@0.2.15** or higher and **am-mong@0.0.15** or higher both need to be in package.json
 
 * Can have single database conenction per application or multiple connections
 * supports mongodb driver 2.3.x and 3.0.x
