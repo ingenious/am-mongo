@@ -567,8 +567,18 @@ There are 210 automated tests for this extension in **_/tests_**. The test suite
     
 ```
 
+<hr/>
+
+## Appendix
 
 ## Chainable Methods for manipulating and logging data
+
+> In all cases **fn** can be a **generator** or a normal function (for analagous synchronous operation)  An ES6 Class (anon or nameed) can be used using syntax .next(methodName,class).  This gives access to ***async/await***
+
+An optional *tolerant* argument can be used with .map() or .filter() or with .mapFilter() to ensure completion even if there is an error
+<hr/>
+
+## Chainable Methods
 
 > In all cases **fn** can be a **generator** or a normal function (for analagous synchronous operation)  An ES6 Class (anon or nameed) can be used using syntax .next(methodName,class).  This gives access to ***async/await***
 
@@ -1527,3 +1537,18 @@ Identical to **<Promise>.catch()** but returns a chainable *ExtendedPromise*.
 
 If want **fn** to be a generator or class use **.error()**
 
+#### Additional Arguments passed to class methods 
+
+When wrapping a class and specifying a method name, arguments to be passed to the method can be added can be added as arguments of the wrappimg am().  The same is true for anonymous and named classes used as arguments to  
+
+#### next(methodName,class,...), error(methodName,class,...), 
+
+  Additional arguments added to **next(methodName,class,...)** are **prepended** to the resolved result of previous step and appled as arguments to the method.  Thiis si useful if you don'tt want the result to be used by the method but wish to apply other arguments.
+
+#### twoPrev(methodName,class,...), threePrev(methodName,class,...)
+
+  Additional arguments added to **twoPrev(methodName,class,...)** are **appended** to the resolved result of previous two steps and appled as arguments to the method.  The main purpose of twoPrev is to pass two results to a method.  If additional arguments are required they can be added in this way.
+
+  Additional arguments added to **threePrev(methodName,class,...)** are **appended** to the resolved result of previous three steps and appled as arguments to the method.  The main purpose of threePrev is to pass three results to a method.  If additional arguments are required they can be added in this way.
+
+<hr/>
