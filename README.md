@@ -117,7 +117,7 @@ Use versions 0.0.5 and above
 
 ```
                                                                                     
-    $ npm install am-mongo@>=0.0.15
+    $ npm install am-mongo@>=0.0.16
 
 ```
 
@@ -137,7 +137,7 @@ or
   am.extend('am-mongo')
     
 ```
-In latter case  **async-methods@0.2.15** or higher and **am-mong@0.0.15** or higher both need to be in package.json
+In latter case  **async-methods@0.2.15** or higher and **am-mong@0.0.16** or higher both need to be in package.json
 
 * Can have single database conenction per application or multiple connections
 * supports mongodb driver 2.3.x and 3.0.x
