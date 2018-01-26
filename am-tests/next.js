@@ -81,10 +81,12 @@ describe('.next()', function() {
         .next(
           'test',
           class {
-            async test(value) {
+            async test(methodArg, value) {
+              assert.equal(methodArg, 'method argument')
               return await Promise.resolve(89 + (value || 0))
             }
-          }
+          },
+          'method argument'
         )
         .next(r => {
           assert.ok(ep instanceof am.ExtendedPromise)
@@ -105,10 +107,12 @@ describe('.next()', function() {
         .next(
           'test',
           new class {
-            async test(value) {
+            async test(methodArg, value) {
+              assert.equal(methodArg, 'method argument')
               return await Promise.resolve(89 + (value || 0))
             }
-          }()
+          }(),
+          'method argument'
         )
         .next(r => {
           assert.ok(ep instanceof am.ExtendedPromise)

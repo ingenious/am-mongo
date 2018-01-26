@@ -3,9 +3,7 @@ var am = require('../am.js'),
 
 describe('.waterfall()', function() {
   describe('Array of Generators', function() {
-    it('should return extended promise resolving to array of returned value of generator', function(
-      done
-    ) {
+    it('should return extended promise resolving to array of returned value of generator', function(done) {
       let ep = am.waterfall([
         function*() {
           return yield 23864
@@ -57,9 +55,7 @@ describe('.waterfall()', function() {
   })
 
   describe('Array of Functions with callbacks', function() {
-    it('should return extended promise resolving to array of returned values from callbacks', function(
-      done
-    ) {
+    it('should return extended promise resolving to array of returned values from callbacks', function(done) {
       let ep = am.waterfall([
         function(cb) {
           cb(null, 23864)
@@ -109,9 +105,7 @@ describe('.waterfall()', function() {
     })
   })
   describe('Object Generators', function() {
-    it('should return extended promise resolving to object of returned value of generator', function(
-      done
-    ) {
+    it('should return extended promise resolving to object of returned value of generator', function(done) {
       let ep = am.waterfall({
         a: function*() {
           return yield 23864
@@ -163,9 +157,7 @@ describe('.waterfall()', function() {
   })
 
   describe('Object of Functions with callbacks', function() {
-    it('should return extended promise resolving to array of returned values from callbacks', function(
-      done
-    ) {
+    it('should return extended promise resolving to array of returned values from callbacks', function(done) {
       let ep = am.waterfall({
         a: function(result, cb) {
           cb(null, 23864)

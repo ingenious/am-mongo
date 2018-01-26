@@ -2,112 +2,80 @@
 
 > Conveniently-wrapped Mongo collections methods returning ExtendedPromises with **_async-methods_** methods available
 
-### New in version 0.0.10
-
-1.  New features  (async-methods 0.2.11) - **.twoPrev()** and **.threePrev()** *ExtendedPromise* methods give access to the previous two resolved values in chain and previous three resolved values in the chain respectively
-
-2.  Most *ExtendedPromise* methods now support regular functions, generators or anonymous or named classes to handle the step processing meaning that steps can be either synchronous or asynchronous using either **yield** within a generator function or **await** within an **async** ES6 class method
-
-3.  The **Asyncronous steps in ES6 Class** pattern/layout offers convenient way to layout each step of an asynchronous mongodb processing sequence as ES6 class methods (functions/generators or async) which can then be easily chained using 
 
 
-```javascript
-                                                           
-    .next(methodName1, class)
- 
-    .next(methodName2, class)
-    
-            ... etc
-     
-    .error(errorMethodName, class)
-   
-```
- with clear readable logic.  (Second argument can also be a new'ed class)
+#### This extension has the following methods:
 
-### Gitter
+* .connect(url, databaseName)
 
-Gitter chat now available for questions/support/suggestions on **am-mongo** [gitter](https://gitter.im/ingenio-us-npm-packages/Lobby)
+* .collections()
 
-### Methods
+* .collection(collectionName)
 
-#### The **am.mongo** extension has two static methods:
+* .collectionNames()
 
-[am.connect()](#persistent-application-wide-connection)
-- create persistent application-wide connection
+* .count()
 
-[am.close()](#close-persistent-connection) close persistent connection
+* .createIndex(collectionName)(keys, options)
 
+* .client()
 
-#### The **am.mongo** extension has the following chainable methods:
+* .db()
 
+* .[deleteMany(collectionName)(criteria,options)](#delete-one-or-more-documents)
 
-* [.connect(url, databaseName)](#transient-connection-for-lifetime-of-a-chain)  - transient connection for lifetime of a chain
+* .[deleteOne(collectionName)(criteria, options)](#delete-one-document)
 
-* [.collections()](#collections)
+* .distinct(collectionName)(field,options)
 
-* [.collection(collectionName)](#collection)
+* .dropCollection(collectionName)
 
-* [.collectionNames()](#collectionnames)
+* .findOne(collectionName)(criteria, options)
 
-* [.count()](#count)
+* .find(collectionName)(criteria, options)
 
-* [.createIndex(collectionName)(keys, options)](#createindex)
+* .geoNear(collectionName)(x,y,options)
 
-* [.client()](#client)
+* .insert(collectionName)(data,options)
 
-* [.db()](#db)
+* .insertOne(collectionName)(data,options)
 
-* [.deleteMany(collectionName)(criteria,options)](#delete-one-or-more-documents)
+* .isCollection(collectionName)
 
-* [.deleteOne(collectionName)(criteria, options)](#delete-one-document)
+* .options(collectionName)
 
-* [.distinct(collectionName)(field,options)](#distinct)
+* .rename(collectionName)(newName)
 
-* [.dropCollection(collectionName)](#dropcollection)
+* .update(collectionName)(criteria, update, options)
 
-* [.findOne(collectionName)(criteria, options)](#findone)
+* .updateOne(collectionName)(criteria, update, options)
 
-* [.find(collectionName)(criteria, options)](#find)
+* .upsert(collectionName)(criteria, update, options)
 
-* [.geoNear(collectionName)(x,y,options)](#geonear)
-
-* [.insert(collectionName)(data,options)](#insert)
-
-* [.insertOne(collectionName)(data,options)](#insertone)
-
-* [.isCollection(collectionName)](#iscollection)
-
-* [.options(collectionName)](#options)
-
-* [.rename(collectionName)(newName)](#rename)
-
-* [.update(collectionName)(criteria, update, options)](#update)
-
-* [.updateOne(collectionName)(criteria, update, options)](#updateone)
-
-* [.upsert(collectionName)(criteria, update, options)](#upsert)
-
-* [.upsertOne(collectionName)(criteria, update, options)](#upsertone)
-
-
+* .upsertOne(collectionName)(criteria, update, options)
 
 ### All async-methods *ExtendedPromise* methods are available to manipulate returned and rejected values
 
 See [async-methods](https://www.npmjs.com/package/async-methods) for full API
 
-*Chainable methods*
+	*Chainable methods*
+	- [**next**(&lt;fn | generator | (methodName,class)&gt;)](#next)
+	- [**error**(&lt;fn | generator | (methodName,class)&gt;)](#error)
+	- [**forEach**(&lt;fn | generator | (methodName,class)&gt;)](#foreach)
+	- [**map**(&lt;fn | generator | (methodName,class)&gt;)](#map)
+	- [**mapFilter**(&lt;fn | generator | (methodName,class)&gt;)](#mapfilter)
+	- [**filter**(&lt;fn | generator | (methodName,class)&gt;)](#filter)
+	- [**twoPrev**(&lt;fn | generator | (methodName,class)&gt;)](#twoprev)
+	- [**threePrev**(&lt;fn | generator | (methodName,class)&gt;)](#threeprev)
+	- [**prev**()](#prev)
 
- - [**next**(&lt;fn | generator | (methodName,class)&gt;)](#next)
- - [**error**(&lt;fn | generator | (methodName,class)&gt;)](#error)
- - [**forEach**(&lt;fn | generator | (methodName,class)&gt;)](#foreach)
- - [**map**(&lt;fn | generator | (methodName,class)&gt;)](#map)
- - [**mapFilter**(&lt;fn | generator | (methodName,class)&gt;)](#mapfilter)
- - [**filter**(&lt;fn | generator | (methodName,class)&gt;)](#filter)
- - [**twoPrev**(&lt;fn | generator | (methodName,class)&gt;)](#twoprev)
- - [**threePrev**(&lt;fn | generator | (methodName,class)&gt;)](#threeprev)
- - [**prev**()](#prev)
+      More: [.log()](#log), [.wait()](#wait), [.timeout()](#timeout), [.catch()](#catch), [.then()](#then), [.promise()](#promise) 
 
-      More: [log()](#log), [wait()](#wait), [timeout()](#timeout), [catch()](#catch), [then()](#then), [promise()](#promise) 
+## Node versions and support for async/await
+
+**async/await** is only available from version 7.6 of node.js.  If you are using an earlier version you will not be able to use the async/await features of **async-methods**.  **async-methods** will still work for wrapping generators and classes with normal functions and generator functions in versions earlier than 7.6.
+
+Generators have been supported in nmodejs since at lease version 4.8.7
 
 ## Handling Promise rejections
 
@@ -129,14 +97,13 @@ or
 	  
 at the end of the chain (see examples below).  That way errors will be trapped and not cause exceptions
 
-
 ## Install
 
 Use versions 0.0.5 and above
 
 ```
                                                                                     
-    $ npm install am-mongo@>=0.0.10 -P
+    $ npm install am-mongo@>=0.0.9 -P
 
 ```
 
@@ -147,13 +114,21 @@ Use versions 0.0.5 and above
   let am=require('am-mongo')
     
 ```
+or
+
+```javascript
+                                                                                    
+  let am=require('async-methods')
+  
+  am.extend('am-mongo')
+    
+```
+In latter case  **async-methods@0.2.15** or higher and **am-mong@0.0.14** or higher both need to be in package.json
 
 * Can have single database conenction per application or multiple connections
 * supports mongodb driver 2.3.x and 3.0.x
 
-### Persistent application-wide connection
-
-#### am.connect() (One persistent connection)
+### am.connect() (One persistent connection)
 
 ```javascript
                                                                                     
@@ -180,17 +155,7 @@ The same connection will be available in any new chain initiated with am even in
 
 If needed **db** and **MongoClient** are available any time as **_am.db_** and **_am.client_**
 
-### Close persistent connection
-
-```javascript
-                                                                    
-    am.close()  // closes the connection
-    
-```
-
-### Transient Connection for lifetime of a chain
-
-#### am().connect() 
+### am().connect() (Separate Connection for lifetime of a chain)
 
 ```javascript
                                                                                     
@@ -218,9 +183,7 @@ If needed **db** and **MongoClient** are available any time as **_am.db_** and *
 
 If needed **db** and **MongoClient** are available any time as **_testDB.db()_** and **_testDB.client()_**
 
-### collections
-
-#### .collections()
+### .collections()
 
 #### List a set of collection objects
 
@@ -238,9 +201,8 @@ An array of collections is resolved in by the returned ExtendedPromise
       })
       
 ```
-### collection
 
-#### .collection(collectionName)
+### .collection(collectionName)
 
 #### Retrieve a collection object
 
@@ -257,9 +219,7 @@ An array of collections is resolved in by the returned ExtendedPromise
      
 ```
 
-### collectionNames
-
-#### .collectionNames()
+### .collectionNames()
 
 #### Retrieve an array of collection names
 
@@ -279,9 +239,7 @@ List a set of collection names using collectionNames()
      
 ```
 
-### count
-
-#### .count()
+### .count()
 
 #### Retrieve a count of documents in a collection
 
@@ -296,9 +254,8 @@ Get a count of records in a collection
      }).log() // 2301
      
 ```
-### createIndex
 
-#### .createIndex(collectionName)((keys, options)
+### createIndex(collectionName)((keys, options)
 
 #### Retrieve a count of documents in a collection
 
@@ -334,9 +291,7 @@ Get a count of records in a collection
      
 ```
 
-### client
-
-#### .client()
+### .client()
 
 #### Returns reference to nodeJS driver native MongoClient object
 
@@ -354,9 +309,8 @@ This method returns a MongoClient object not an ExtendedPromise
      }
      
 ```
-### db
 
-#### .db()
+### .db()
 
 #### Returns reference to nodeJS driver native database object
 
@@ -373,9 +327,8 @@ This method returns a DB object not an ExtendedPromise
      }
      
 ```
-### deleteOne
 
-#### .deleteOne(collectionName)(criteria, options)
+### .deleteOne(collectionName)(criteria, options)
 
 #### Delete one document
 
@@ -385,9 +338,8 @@ This method returns a DB object not an ExtendedPromise
           .deleteOne('user')({ name: 'Max' }).log()  // { n: 1, ok: 1 }
           
 ```
-### deleteMany
 
-#### .deleteMany(collectionName)(criteria, options)
+### .deleteManycollectionName)(criteria, options)
 
 #### Delete one or more documents
 
@@ -398,9 +350,7 @@ This method returns a DB object not an ExtendedPromise
 
 ```
 
-### distinct
-
-#### .distinct(collectionName)()
+### .distinct(collectionName)()
 
 #### Get a list of unique values for an attribute
 
@@ -411,9 +361,7 @@ This method returns a DB object not an ExtendedPromise
       
 ```
 
-### dropCollection
-
-#### .dropCollection((collectionName))
+### .dropCollection((collectionName))
 
 #### drop of a collection
 
@@ -423,8 +371,6 @@ This method returns a DB object not an ExtendedPromise
       .log()  //  true
       
 ```
-
-### findOne
 
 ### .findOne(collectionName)(criteria, options)
 
@@ -437,8 +383,6 @@ This method returns a DB object not an ExtendedPromise
       .log()  // { _id: 5a3b9abec6572e2a7d761420, name: 'Max', balance: 4567 }
       
 ```
-
-### find
 
 ### .find(collectionName)(criteria, options)
 
@@ -453,9 +397,8 @@ This method returns a DB object not an ExtendedPromise
         //       { _id: 5a3b9b1cf418082a9d8a0813, name: 'Max', balance: 1234 } ]
         
 ```
-### geoNear
 
-#### .geoNear(collectionName)(x,y,options)
+### .geoNear(collectionName)(x,y,options)
 
 #### retrieve one or more documents using location proximity
 
@@ -484,9 +427,8 @@ This method returns a DB object not an ExtendedPromise
      */
      
 ```
-### insertOne
 
-#### .insertOne(collectionName)(data,options)
+### .insertOne(collectionName)(data,options)
 
 #### insert one document into a collection and return inserted record
 
@@ -497,9 +439,8 @@ This method returns a DB object not an ExtendedPromise
       .log()   //  { name: 'Max', balance: 4567, _id: 5a3b9d26cfaaae2b05ba243a }
       
 ```
-### insert
 
-#### .insert(collectionName)(data,options)
+### .insert(collectionName)(data,options)
 
 #### insert one or more documents into a collection and return inserted records
 
@@ -512,9 +453,8 @@ This method returns a DB object not an ExtendedPromise
         //    { name: 'Mary', balance: 8971, _id: 5a3b9d93169eeb2b24246bf1 } ]
         
 ```
-### isCollection
 
-#### .isCollection(collectionName)
+### .isCollection(collectionName)
 
 #### Check if collection exists
 
@@ -528,9 +468,7 @@ This method returns a DB object not an ExtendedPromise
       
 ```
 
-### options
-
-#### .options(collectionName)
+### options(collectionName)
 
 #### Get options of collection
 
@@ -543,9 +481,8 @@ This method returns a DB object not an ExtendedPromise
       })
       
 ```
-### rename
 
-#### .rename(collectionName)(newName)
+### .rename(collectionName)(newName)
 
 #### Rename a collection
 
@@ -561,9 +498,8 @@ This method returns a DB object not an ExtendedPromise
       })
       
 ```
-### updateOne
 
-#### .updateOne(collectionName)(criteria, update, options)
+### updateOne(collectionName)(criteria, update, options)
 
 #### Update one document
 
@@ -574,9 +510,8 @@ This method returns a DB object not an ExtendedPromise
           .log()    //   { n: 1, nModified: 1, ok: 1 }
           
 ```
-### update
 
-#### .update(collectionName)(criteria, update, options)
+### update(collectionName)(criteria, update, options)
 
 #### Update one or more documents
 
@@ -587,9 +522,8 @@ This method returns a DB object not an ExtendedPromise
           .log()    //  { n: 2, nModified: 2, ok: 1 }
           
 ```
-### upsert
 
-#### .upsert(collectionName)(criteria, update, options)
+### upsert(collectionName)(criteria, update, options)
 
 #### Upsert (Amend if exists, create if not) one or more documents
 
@@ -605,9 +539,7 @@ This method returns a DB object not an ExtendedPromise
           
 ```
 
-### upsertOne
-
-### .upsertOne(collectionName)(criteria, update, options)
+### upsertOne(collectionName)(criteria, update, options)
 
 #### Upsert (Amend if exists, create if not) one document
 

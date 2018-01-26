@@ -1,11 +1,11 @@
 var am = require('../am.js'),
   assert = require('assert')
 
+
+  
 describe('.all()', function() {
   describe('Array of Generators', function() {
-    it('should return extended promise resolving to array of returned value of generator', function(
-      done
-    ) {
+    it('should return extended promise resolving to array of returned value of generator', function(done) {
       let ep = am.all([
         function*() {
           return yield 23864
@@ -54,9 +54,7 @@ describe('.all()', function() {
     })
   })
   describe('Array of Promises', function() {
-    it('should return extended promise resolving to array of resolved values of promises', function(
-      done
-    ) {
+    it('should return extended promise resolving to array of resolved values of promises', function(done) {
       let ep = am.all([Promise.resolve(23864), Promise.resolve(563728)])
       assert.ok(ep instanceof am.ExtendedPromise)
       assert.ok(
@@ -89,9 +87,7 @@ describe('.all()', function() {
     })
   })
   describe('Array of Functions with callbacks', function() {
-    it('should return extended promise resolving to array of returned values from callbacks', function(
-      done
-    ) {
+    it('should return extended promise resolving to array of returned values from callbacks', function(done) {
       let ep = am.all([
         function(cb) {
           cb(null, 23864)
@@ -138,9 +134,7 @@ describe('.all()', function() {
     })
   })
   describe('Object Generators', function() {
-    it('should return extended promise resolving to object of returned value of generator', function(
-      done
-    ) {
+    it('should return extended promise resolving to object of returned value of generator', function(done) {
       let ep = am.all({
         a: function*() {
           return yield 23864
@@ -188,9 +182,7 @@ describe('.all()', function() {
     })
   })
   describe('Object of Promises', function() {
-    it('should return extended promise resolving to object of resolved values of promises', function(
-      done
-    ) {
+    it('should return extended promise resolving to object of resolved values of promises', function(done) {
       let ep = am.all({ a: Promise.resolve(23864), b: Promise.resolve(563728) })
       assert.ok(ep instanceof am.ExtendedPromise)
       assert.ok(
@@ -223,9 +215,7 @@ describe('.all()', function() {
     })
   })
   describe('Object of Functions with callbacks', function() {
-    it('should return extended promise resolving to array of returned values from callbacks', function(
-      done
-    ) {
+    it('should return extended promise resolving to array of returned values from callbacks', function(done) {
       let ep = am.all({
         a: function(cb) {
           cb(null, 23864)

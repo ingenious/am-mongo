@@ -38,7 +38,7 @@ describe('.map()', function() {
       )
     })
   })
-  describe('Array applied to Class (synchronous/asynchronous)', function() {
+  describe('Array applied to generator (asynchronous)', function() {
     it('should return promise resolving to array of asynchronously \n        returned values in map generator function', function(done) {
       assert.ok(
         am([5, 6, 7])

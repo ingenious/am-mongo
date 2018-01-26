@@ -335,12 +335,14 @@ describe('Wrapping', function() {
     it('should return extended promise resolving or rejecting to returned value of name class', function(done) {
       // named class
       class sample {
-        async test() {
+        async test(methodArg1, methodArg2) {
+          assert.equal(methodArg1, 'method argument 1')
+          assert.equal(methodArg2, 'method argument 2')
           return await Promise.resolve(56789)
         }
       }
 
-      let ep = am('test', sample).next(r => {
+      let ep = am('test', sample, 'method argument 1', 'method argument 2').next(r => {
         assert.ok(ep instanceof am.ExtendedPromise)
         assert.equal(r, 56789)
         done()
@@ -360,6 +362,7 @@ describe('Wrapping', function() {
           return await Promise.resolve(5 + (self.value || 0) + (arg || 0))
         }
       }
+      // call emthod with
 
       let ep = am('test', new sample(12), 17)
         .next(r => {
