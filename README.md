@@ -103,7 +103,7 @@ Use versions 0.0.5 and above
 
 ```
                                                                                     
-    $ npm install am-mongo@>=0.0.9 -P
+    $ npm install am-mongo@>=0.0.14 
 
 ```
 
