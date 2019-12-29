@@ -1,6 +1,7 @@
-var am = require('../am.js'),
-  assert = require('assert'),
-  url = 'mongodb://192.168.99.100:32773'
+let am = require('../am.js')
+let assert = require('assert')
+let testDB
+let url = 'mongodb://127.0.0.1:27017'
 
 describe('Single Chain Database Connection', () => {
   before(done => {
@@ -10,7 +11,7 @@ describe('Single Chain Database Connection', () => {
       .connect(url, 'test')
       .next(db => {
         am('user, location, balance, bank'.split(', '))
-          .forEach(function*(collection) {
+          .forEach(function * (collection) {
             if (yield testDB.isCollection(collection)) {
               yield testDB.dropCollection(collection)
             }
@@ -50,7 +51,7 @@ describe('Single Chain Database Connection', () => {
             return testDB.collectionNames()
           })
           .next(collections => {
-            list = collections.filter(function(collectionName) {
+            collections.filter(function (collectionName) {
               if (collectionName !== 'system.version') {
                 return true
               }
@@ -66,14 +67,14 @@ describe('Single Chain Database Connection', () => {
     testDB
 
       .next(result => {
-        assert.equal(testDB._state_.db && testDB._state_.db().s.databaseName, 'test')
+        assert.strictEqual(testDB._state_.db && testDB._state_.db().databaseName, 'test')
         return 188
       })
 
       .next(result => result)
       .prev()
       .next(value => {
-        assert.equal(value, 188)
+        assert.strictEqual(value, 188)
         done()
       })
   })
@@ -82,10 +83,10 @@ describe('Single Chain Database Connection', () => {
     try {
       db = testDB.db()
       collection = db.collection('user')
-      assert.equal(collection.collectionName, 'user')
+      assert.strictEqual(collection.collectionName, 'user')
 
       done()
-    } catch (e) {
+    } catch (err) {
       assert.fail(err, null, '')
       done()
     }
@@ -94,17 +95,17 @@ describe('Single Chain Database Connection', () => {
     let client
     try {
       client = testDB.client()
-      assert.equal(client && client.constructor && client.constructor.name, 'MongoClient')
+      assert.strictEqual(client && client.constructor && client.constructor.name, 'MongoClient')
 
       done()
-    } catch (e) {
+    } catch (err) {
       assert.fail(err, null, '')
       done()
     }
   })
   it('.collections()', done => {
     testDB.collections().next(results => {
-      assert.equal(results.length, 3)
+      assert.strictEqual(results.length, 3)
       done()
     })
   })
@@ -113,13 +114,13 @@ describe('Single Chain Database Connection', () => {
       .collection('user')
 
       .next(result => {
-        assert.equal(result.collectionName, 'user')
+        assert.strictEqual(result.collectionName, 'user')
         done()
       })
   })
   it('.collectionNames()', done => {
     testDB.collectionNames().next(result => {
-      assert.notEqual(result.indexOf('user'), -1)
+      assert.notStrictEqual(result.indexOf('user'), -1)
       done()
     })
   })
@@ -127,11 +128,11 @@ describe('Single Chain Database Connection', () => {
     testDB
       .count('user')
       .next(result => {
-        assert.equal(result, 3)
+        assert.strictEqual(result, 3)
       })
       .count()
       .next(result => {
-        assert.equal(result, 1)
+        assert.strictEqual(result, 1)
         done()
       })
   })
@@ -139,7 +140,7 @@ describe('Single Chain Database Connection', () => {
     testDB
       .createIndex('location')({ geo: '2dsphere' })
       .next(result => {
-        assert.equal(result, 'geo_2dsphere')
+        assert.strictEqual(result, 'geo_2dsphere')
         done()
       })
   })
@@ -147,7 +148,8 @@ describe('Single Chain Database Connection', () => {
     testDB
       .distinct('user')('name')
       .next(result => {
-        assert.equal(result[0], 'Max')
+        assert.strictEqual(result.includes('Max'), true)
+        assert.strictEqual(result.length, 2)
         done()
       })
   })
@@ -155,7 +157,7 @@ describe('Single Chain Database Connection', () => {
     testDB
       .findOne('user')()
       .next(result => {
-        assert.equal(result.balance, 4567)
+        assert.strictEqual(result.balance, 4567)
         done()
       })
   })
@@ -163,22 +165,32 @@ describe('Single Chain Database Connection', () => {
     testDB
       .find('user')()
       .next(result => {
-        assert.equal(result[0].balance, 4567)
+        assert.strictEqual(result[0].balance, 4567)
         done()
       })
   })
   it('.options()', done => {
     testDB.options('user').next(result => {
-      assert.deepEqual(result, {})
+      assert.deepStrictEqual(result, {})
       done()
     })
   })
   it('.geoNear', done => {
     testDB
-      .geoNear('location')(0.2, 51, { spherical: true, maxDistance: 0.1 })
+      .geoNear('location')(-0.24, 51.5,
+        // https://docs.mongodb.com/manual/reference/operator/aggregation/geoNear/
+        {
+          distanceField: 'dist.calculated',
+          maxDistance: 20000,
+          includeLocs: 'dist.location',
+          spherical: true
+        })
       .next(result => {
-        assert.equal(result.results.length, 1)
+        assert.strictEqual(result.results.length, 1)
 
+        done()
+      }).error((err) => {
+        console.log(err)
         done()
       })
   })
@@ -186,7 +198,7 @@ describe('Single Chain Database Connection', () => {
     testDB
       .insert('user')([{ name: 'Fred' }, { name: 'Tom' }])
       .next(result => {
-        assert.equal(result[0].name, 'Fred')
+        assert.strictEqual(result[0].name, 'Fred')
         done()
       })
   })
@@ -194,7 +206,7 @@ describe('Single Chain Database Connection', () => {
     testDB
       .insertOne('user')({ name: 'Freda' })
       .next(result => {
-        assert.equal(result.name, 'Freda')
+        assert.strictEqual(result.name, 'Freda')
         done()
       })
   })
@@ -215,7 +227,7 @@ describe('Single Chain Database Connection', () => {
         }
       )
       .next(result => {
-        assert.equal(result.nModified, 6)
+        assert.strictEqual(result.nModified, 6)
         done()
       })
   })
@@ -230,11 +242,11 @@ describe('Single Chain Database Connection', () => {
         }
       )
       .next(result => {
-        assert.equal(result.nModified, 1)
+        assert.strictEqual(result.nModified, 1)
         done()
       })
       .error(err => {
-        assert.fail(err, null, '')
+        assert.fail(err)
         done()
       })
       .catch(done)
@@ -251,7 +263,7 @@ describe('Single Chain Database Connection', () => {
         }
       )
       .next(result => {
-        assert.equal(result.upserted.length, 1)
+        assert.strictEqual(result.upserted.length, 1)
         done()
       })
   })
@@ -259,7 +271,7 @@ describe('Single Chain Database Connection', () => {
     testDB
       .deleteOne('user')({ name: 'Fredat' })
       .next(result => {
-        assert.equal(result.n, 1)
+        assert.strictEqual(result.n, 1)
         done()
       })
   })
@@ -267,7 +279,7 @@ describe('Single Chain Database Connection', () => {
     testDB
       .deleteMany('user')({ name: 'Freda' })
       .next(result => {
-        assert.equal(result.n, 1)
+        assert.strictEqual(result.n, 1)
         done()
       })
   })
@@ -283,7 +295,7 @@ describe('Single Chain Database Connection', () => {
         }
       )
       .next(result => {
-        assert.equal(result.upserted.length, 1)
+        assert.strictEqual(result.upserted.length, 1)
         done()
       })
   })
@@ -297,7 +309,7 @@ describe('Single Chain Database Connection', () => {
     testDB
       .close()
       .collectionNames()
-      .error(err => {
+      .error(() => {
         assert.ok(true)
         done()
       })

@@ -20,7 +20,7 @@
     "all",
     "async/await"
   ],
-  "version": "0.0.16",
+  "version": "0.1.0",
   "description": "Extension to add mongo collection methods to async-methods so they return Extended Promises",
   "main": "am.js",
   "scripts": {
@@ -36,11 +36,11 @@
   "license": "ISC",
   "dependencies": {
     "async-methods": "^0.2.15",
-    "mongodb": "^2.3.0 || ^3.0.0-rc0"
+    "mongodb": "^3.0.0"
   },
   "devDependencies": {
     "intercept-stdout": "^0.1.2",
-    "mocha": "^4.0.1",
-    "mongo-mock": "^2.8.0"
+    "mocha": "^4.0.0",
+    "mongo-mock": "^3.8.1"
   }
 }

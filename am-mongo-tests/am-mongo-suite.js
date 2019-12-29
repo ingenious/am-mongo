@@ -1,12 +1,8 @@
-let am = require('../am.js'),
-  asyncMethods = require('async-methods'),
-  mongodb = require('mongodb'),
-  assert = require('assert')
-url = '192.168.99.100:32773'
-
-var testDB,
-  list = [],
-  MongoClient = require('mongodb').MongoClient
+let am = require('../am.js')
+let assert = require('assert')
+let url = 'mongodb://127.0.0.1:27017'
+let testDB
+let list = []
 
 describe('Persistent connection to Mongo database ', () => {
   before(done => {
@@ -14,7 +10,7 @@ describe('Persistent connection to Mongo database ', () => {
     // Connect to the db
     testDB = am.connect(url, 'test').then(db => {
       am('user, location, balance, bank'.split(', '))
-        .forEach(function*(collection) {
+        .forEach(function * (collection) {
           if (yield testDB.isCollection(collection)) {
             yield testDB.dropCollection(collection)
           }
@@ -54,7 +50,7 @@ describe('Persistent connection to Mongo database ', () => {
           return testDB.collectionNames()
         })
         .next(collections => {
-          list = collections.filter(function(collectionName) {
+          list = collections.filter(function (collectionName) {
             if (collectionName !== 'system.version') {
               return true
             }
@@ -74,22 +70,22 @@ describe('Persistent connection to Mongo database ', () => {
   })
   it('should export the database connection as .db allowing access to other methods', done => {
     let collection = am.db.collection('user')
-    assert.equal(collection.collectionName, 'user')
+    assert.strictEqual(collection.collectionName, 'user')
 
     done()
   })
   it('should export the MongoCLient as am.client allowing access to other methods', done => {
-    assert.equal(am.client && am.client.constructor && am.client.constructor.name, 'MongoClient')
+    assert.strictEqual(am.client && am.client.constructor && am.client.constructor.name, 'MongoClient')
     done()
   })
   it('should export the database connection as am().db allowing access to other methods', done => {
     let collection = am().db.collection('user')
-    assert.equal(collection.collectionName, 'user')
-    assert.notEqual(list.indexOf('user'), -1)
+    assert.strictEqual(collection.collectionName, 'user')
+    assert.notStrictEqual(list.indexOf('user'), -1)
     done()
   })
   it('should list a set of collection names using collectionNames()', done => {
-    assert.notEqual(list.indexOf('user'), -1)
+    assert.notStrictEqual(list.indexOf('user'), -1)
     done()
   })
 
@@ -100,7 +96,7 @@ describe('Persistent connection to Mongo database ', () => {
         return collection.collectionName
       })
       .next(list => {
-        assert.notEqual(list.indexOf('user'), -1)
+        assert.notStrictEqual(list.indexOf('user'), -1)
         done()
       })
 
@@ -110,11 +106,12 @@ describe('Persistent connection to Mongo database ', () => {
     testDB
       .rename('balance')('bank')
 
-      .next(function*(collection) {
-        let banks = yield testDB.find('bank')(),
-          balances = yield testDB.find('balance')()
-        assert.equal(balances.length, 0)
-        assert.equal(banks.length, 2)
+      .next(function * (collection) {
+        let banks = yield testDB.find('bank')()
+
+        let balances = yield testDB.find('balance')()
+        assert.strictEqual(balances.length, 0)
+        assert.strictEqual(banks.length, 2)
         done()
       })
       .catch(done)
@@ -123,9 +120,9 @@ describe('Persistent connection to Mongo database ', () => {
     testDB
       .dropCollection('bank')
 
-      .next(function*(list) {
+      .next(function * (list) {
         let balances = yield testDB.find('balance')()
-        assert.equal(balances.length, 0)
+        assert.strictEqual(balances.length, 0)
 
         done()
       })
@@ -146,8 +143,7 @@ describe('Persistent connection to Mongo database ', () => {
     testDB
       .distinct('user')('name')
       .next(values => {
-        assert.ok(values[0] === 'Max' && values.length === 2)
-
+        assert.ok(values.includes('Max') && values.length === 2)
         done()
       })
       .catch(done)
@@ -205,7 +201,7 @@ describe('Persistent connection to Mongo database ', () => {
           })
       })
       .error(err => {
-        assert.fail()
+        assert.fail(err)
         done()
       })
       .catch(done)
@@ -236,7 +232,7 @@ describe('Persistent connection to Mongo database ', () => {
     testDB
       .count('user')
       .next(count => {
-        assert.equal(count, 3)
+        assert.strictEqual(count, 3)
         done()
       })
       .catch(done)
@@ -245,7 +241,7 @@ describe('Persistent connection to Mongo database ', () => {
     testDB
       .find('user')()
       .then(records => {
-        //console.log(186, records)
+        // console.log(186, records)
 
         testDB
           .update('user')({ name: 'Max' }, { balance: 8888 })
@@ -253,8 +249,8 @@ describe('Persistent connection to Mongo database ', () => {
           .find('user')()
           .next(records => {
             // console.log(195, records)
-            assert.equal(records[0].balance, 8888)
-            assert.equal(records[1].balance, 8888)
+            assert.strictEqual(records[0].balance, 8888)
+            assert.strictEqual(records[1].balance, 8888)
 
             done()
           })
@@ -274,8 +270,8 @@ describe('Persistent connection to Mongo database ', () => {
           .next(records => {
             //  console.log(217, 'after', records)
 
-            assert.equal(records[0].balance, 7777)
-            assert.equal(records[1].balance, 8888)
+            assert.strictEqual(records[0].balance, 7777)
+            assert.strictEqual(records[1].balance, 8888)
 
             done()
           })
@@ -286,7 +282,7 @@ describe('Persistent connection to Mongo database ', () => {
     testDB
       .find('user')()
       .then(records => {
-        //console.log(186, records)
+        // console.log(186, records)
 
         testDB
           .upsert('user')({ name: 'Max' }, { balance: 8888 })
@@ -295,9 +291,9 @@ describe('Persistent connection to Mongo database ', () => {
           .find('user')()
           .next(records => {
             // console.log(195, records)
-            assert.equal(records[0].balance, 8888)
-            assert.equal(records[1].balance, 8888)
-            assert.equal(records[3].name, 'Molly')
+            assert.strictEqual(records[0].balance, 8888)
+            assert.strictEqual(records[1].balance, 8888)
+            assert.strictEqual(records[3].name, 'Molly')
 
             done()
           })
@@ -317,9 +313,9 @@ describe('Persistent connection to Mongo database ', () => {
           .next(records => {
             //  console.log(217, 'after', records)
 
-            assert.equal(records[0].balance, 7777)
-            assert.equal(records[1].balance, 8888)
-            assert.equal(records[3].name, 'Molly')
+            assert.strictEqual(records[0].balance, 7777)
+            assert.strictEqual(records[1].balance, 8888)
+            assert.strictEqual(records[3].name, 'Molly')
 
             done()
           })
@@ -330,15 +326,15 @@ describe('Persistent connection to Mongo database ', () => {
     testDB
       .find('user')()
 
-      .next(function(records) {
-        //console.log(233, records)
+      .next(function (records) {
+        // console.log(233, records)
         testDB
           .deleteOne('user')({ name: 'Max' })
           //   setTimeout(function() {
 
           .find('user')({ name: 'Max' })
           .next(records => {
-            assert.equal(records.length, 1)
+            assert.strictEqual(records.length, 1)
 
             done()
           })
@@ -355,7 +351,7 @@ describe('Persistent connection to Mongo database ', () => {
 
           .find('user')({})
           .next(records => {
-            assert.equal(records.length, 1)
+            assert.strictEqual(records.length, 1)
             done()
           })
           .catch(done)
@@ -364,14 +360,18 @@ describe('Persistent connection to Mongo database ', () => {
 
   it('should return documents chosen with geoNear', done => {
     testDB
-      .geoNear('location')(0.2, 51, { spherical: true, maxDistance: 0.1 })
+      .geoNear('location')(-0.24, 51.5,
+        { spherical: true,
+          maxDistance: 20000,
+          distanceField: 'dist.calculated'
+        })
 
       .next(result => {
-        assert.deepEqual(
+        assert.deepStrictEqual(
           result && result.results && result.results[0].obj && result.results[0].obj.city,
           'London'
         )
-        assert.deepEqual(result.results && result.results.length, 1)
+        assert.deepStrictEqual(result.results && result.results.length, 1)
         done()
       })
       .catch(err => {
@@ -382,7 +382,7 @@ describe('Persistent connection to Mongo database ', () => {
 
   it('should provide the options of a collection', done => {
     testDB.options('user').next(options => {
-      assert.deepEqual(true, true)
+      assert.deepStrictEqual(true, true)
       done()
     })
   })
